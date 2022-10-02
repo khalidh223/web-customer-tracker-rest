@@ -1,6 +1,7 @@
 package com.wct.service
 
 import com.wct.domain.CustomerEntity
+import com.wct.model.CustomerUpdateRequest
 import com.wct.repository.CustomerRepository
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.long
@@ -12,8 +13,10 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import test.customerEntity
-import test.customerRequest
+import test.customerPostRequest
 import io.kotlintest.shouldBe
+import test.customerUpdateRequest
+import test.toEntity
 
 class CustomerServiceImplTests : StringSpec({
     val repository = mockk<CustomerRepository>()
@@ -43,7 +46,7 @@ class CustomerServiceImplTests : StringSpec({
 
     "createCustomer should save a customer to the customer table" {
         //arrange
-        val customerRequest = Gen.customerRequest().random().first()
+        val customerRequest = Gen.customerPostRequest().random().first()
         val customerEntity = CustomerEntity(
             firstName = customerRequest.firstName,
             lastName = customerRequest.lastName,
@@ -70,7 +73,7 @@ class CustomerServiceImplTests : StringSpec({
 
     "createCustomer should not save a customer to the customer table if one with the same email already exists" {
         //arrange
-        val customerRequest = Gen.customerRequest().random().first()
+        val customerRequest = Gen.customerPostRequest().random().first()
         val savedCustomerEntity = CustomerEntity(
             firstName = customerRequest.firstName,
             lastName = customerRequest.lastName,
@@ -93,7 +96,6 @@ class CustomerServiceImplTests : StringSpec({
             repository.save(savedCustomerEntity)
         }
     }
-
 
 }) {
     override fun isolationMode(): IsolationMode = IsolationMode.InstancePerLeaf
