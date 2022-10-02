@@ -71,32 +71,6 @@ class CustomerServiceImplTests : StringSpec({
         }
     }
 
-    "createCustomer should not save a customer to the customer table if one with the same email already exists" {
-        //arrange
-        val customerRequest = Gen.customerPostRequest().random().first()
-        val savedCustomerEntity = CustomerEntity(
-            firstName = customerRequest.firstName,
-            lastName = customerRequest.lastName,
-            email = customerRequest.email
-        )
-
-        every {
-            repository.existsByEmail(savedCustomerEntity.email)
-        } returns true
-
-        //act
-        val result = service.createCustomer(customerRequest)
-
-        //assert
-        result shouldBe null
-        verify(exactly = 1) {
-            repository.existsByEmail(savedCustomerEntity.email)
-        }
-        verify(exactly = 0) {
-            repository.save(savedCustomerEntity)
-        }
-    }
-
 }) {
     override fun isolationMode(): IsolationMode = IsolationMode.InstancePerLeaf
 }

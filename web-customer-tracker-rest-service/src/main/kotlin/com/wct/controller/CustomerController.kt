@@ -28,18 +28,18 @@ class CustomerController(private val customerService: CustomerService) {
 
     @GetMapping("{customerId}")
     fun getCustomerById(@PathVariable customerId: Long): CustomerEntity? {
-        return customerService.getCustomerById(customerId) ?: throw CustomerNotFoundException("Customer id $customerId not found")
+        return customerService.getCustomerById(customerId)
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    fun createCustomer(@Valid @RequestBody request: CustomerPostRequest): CustomerEntity {
-        return customerService.createCustomer(request) ?: throw ConflictException("Customer with email ${request.email} already exists")
+    fun createCustomer(@Valid @RequestBody request: CustomerPostRequest): CustomerEntity? {
+        return customerService.createCustomer(request)
     }
 
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun updateCustomer(@Valid @RequestBody request: CustomerUpdateRequest): CustomerEntity {
-        return customerService.updateCustomer(request) ?: throw CustomerNotFoundException("Customer id ${request.id} not found")
+    fun updateCustomer(@Valid @RequestBody request: CustomerUpdateRequest): CustomerEntity? {
+        return customerService.updateCustomer(request)
     }
 }
