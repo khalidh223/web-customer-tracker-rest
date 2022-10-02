@@ -1,7 +1,6 @@
 package com.wct.service
 
 import com.wct.domain.CustomerEntity
-import com.wct.model.CustomerUpdateRequest
 import com.wct.repository.CustomerRepository
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.long
@@ -14,9 +13,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import test.customerEntity
 import test.customerPostRequest
-import io.kotlintest.shouldBe
-import test.customerUpdateRequest
-import test.toEntity
 
 class CustomerServiceImplTests : StringSpec({
     val repository = mockk<CustomerRepository>()

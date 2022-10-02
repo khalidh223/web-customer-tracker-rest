@@ -9,4 +9,5 @@ interface CustomerService {
     fun getCustomerById(customerId: Long): CustomerEntity?
     fun createCustomer(request: CustomerPostRequest): CustomerEntity?
     fun updateCustomer(request: CustomerUpdateRequest): CustomerEntity?
+    fun deleteCustomer(customerId: Long)
 }

@@ -27,10 +27,20 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository) : 
     }
 
     override fun updateCustomer(request: CustomerUpdateRequest): CustomerEntity? {
+        if (request.id == 0L) {
+            throw CustomerNotFoundException("Customer id not provided")
+        }
         if (!customerRepository.existsById(request.id)) {
             throw CustomerNotFoundException("Customer id ${request.id} not found")
         }
+
        return customerRepository.save(request.toEntity())
+    }
+
+    override fun deleteCustomer(customerId: Long) {
+        val customerToDelete = customerRepository.findByIdOrNull(customerId)
+            ?: throw CustomerNotFoundException("Customer id $customerId not found")
+        return customerRepository.delete(customerToDelete)
     }
 
     private fun CustomerPostRequest.toEntity() =

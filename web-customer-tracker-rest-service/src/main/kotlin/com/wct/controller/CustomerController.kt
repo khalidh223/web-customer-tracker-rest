@@ -1,12 +1,11 @@
 package com.wct.controller
 
 import com.wct.domain.CustomerEntity
-import com.wct.error.ConflictException
-import com.wct.error.CustomerNotFoundException
 import com.wct.model.CustomerPostRequest
 import com.wct.model.CustomerUpdateRequest
 import com.wct.service.CustomerService
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -41,5 +40,11 @@ class CustomerController(private val customerService: CustomerService) {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateCustomer(@Valid @RequestBody request: CustomerUpdateRequest): CustomerEntity? {
         return customerService.updateCustomer(request)
+    }
+
+    @DeleteMapping("{customerId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteCustomer(@PathVariable customerId: Long) {
+        return customerService.deleteCustomer(customerId)
     }
 }
